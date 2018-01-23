@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    
+    <link href="style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
     <script src="index.js"></script>
@@ -12,14 +12,23 @@
         <div class="options">
             <p>Options</p>
             <div class="controls-wrapper">
-                <select>
-                    <option value="0">A</option>
+                <select id="a-select" onChange="registerChange()">
+                    <option value="0">Toate</option>
+                </select>
+                 <select id="b-select" onChange="registerChange()">
+                    <option value="0" >Toate</option>
+                </select>
+                 <select id="c-select" onChange="registerChange()">
+                     <option value="0" >Toate</option>
                 </select>
                
             </div>
         </div>
-        <div class="data">
+        <div class="data" >
             <p>Data</p>
+            <table id="table-data">
+                
+            </table>
         </div>
     </div>
 </body>
