@@ -52,13 +52,13 @@ window.onload = function(){
     };
 
 
-    function putValuesInSelects(){
+    function putValuesInSelects(array){
         var typeA = getColumnTypes(array, 0)
         var typeB = getColumnTypes(array, 1)
         var typeC = getColumnTypes(array, 2)
 
         var selectA = document.getElementById('a-select')
-        var innerHtmlA = selectA.innerHTML;
+        var innerHtmlA = '<option value="0">Toate</option>';
 
         typeA.forEach(function(item){
             innerHtmlA += '<option value="'+item+'">'+ item + '</option>';
@@ -92,7 +92,7 @@ window.onload = function(){
     }
 
     //place the initial Values in selects
-    putValuesInSelects();
+    putValuesInSelects(array);
     
     
     function putValuesInTable(elements){
@@ -100,11 +100,10 @@ window.onload = function(){
         
         var table = document.getElementById('table-data');
         
-        var innerHtml = '<table class="display:none;"></table>';
+        var innerHtml = '';
         
         elements.forEach(function(element){
             row = element.split(",")
-            console.log(row)
            innerHtml += '<tr><td>' + row[0] +'</td><td>'+row[1]+'</td><td>'+row[2]+'</td></tr>' ;
         });
         
@@ -125,7 +124,8 @@ window.onload = function(){
         
         var filtered = filterData(array, input)
         console.log(filtered)
-        putValuesInTable(array)
+        putValuesInTable(filtered)
+
     }
     
     function filterData(arr, input){
@@ -141,13 +141,11 @@ window.onload = function(){
                 keyOrder = 2
             }
             
-            console.log('key is', key)
-            console.log('keyOrder is', keyOrder)
+
             if(input[key] != 0){
                 filtered = filtered.filter(function(element){
                     var row = element.split(",");
                     if(row[keyOrder] == input[key]){
-                        console.log('they match')
                         return element
                     }
                 })
