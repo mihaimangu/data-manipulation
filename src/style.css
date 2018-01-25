@@ -17,3 +17,10 @@ td{
 tr:nth-child(2n) td{
     background-color: #fcfcfc;
 }
+
+.db{
+    display: block;
+}
+.dn{
+    display: none;
+}
