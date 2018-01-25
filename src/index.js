@@ -1,4 +1,6 @@
-var registerChange;
+var registerChange
+
+var selectOrder = []
 
 window.onload = function(){
     var data = "A1,B1,C1" + "\n" 
@@ -51,7 +53,6 @@ window.onload = function(){
         return elements;
     };
 
-
     function putValuesInSelects(array){
         var typeA = getColumnTypes(array, 0)
         var typeB = getColumnTypes(array, 1)
@@ -66,9 +67,9 @@ window.onload = function(){
         })
 
         selectA.innerHTML = innerHtmlA;
-        
+
         var selectB = document.getElementById('b-select')
-         var innerHtmlB = selectB.innerHTML;
+         var innerHtmlB = '<option value="0">Toate</option>';
 
         typeB.forEach(function(item){
             innerHtmlB += '<option value="'+item+'">'+ item + '</option>';
@@ -76,9 +77,9 @@ window.onload = function(){
         })
 
         selectB.innerHTML = innerHtmlB;
-        
+
         var selectC = document.getElementById('c-select')
-         var innerHtmlC = selectC.innerHTML;
+         var innerHtmlC = '<option value="0">Toate</option>';
 
         typeC.forEach(function(item){
             innerHtmlC += '<option value="'+item+'">'+ item + '</option>';
@@ -86,51 +87,88 @@ window.onload = function(){
         })
 
         selectC.innerHTML = innerHtmlC;
+    }
+
+    function updateSelects(filtered, currentValues){
 
 
+        var currentIndex = {
 
+        }
+
+        console.log('current values are', currentValues)
+
+        var selects = document.getElementsByClassName("select-type");
+        
+        for(var i= 0; i < selects.length; i++){
+           var select = selects[i]
+           console.log(select)
+            for(j = 0; j < select.length ; j++){
+                console.log(select[j].value)
+                if(select[j].value == currentValues[i]){
+                    console.log('matches, values is ', currentValues[i])
+                    currentIndex[i] = j
+                }
+            }
+
+        }
+
+        console.log('current index is', currentIndex);
+        //putValuesInSelects(array);
+
+        for(var x = 0; x < selects.length; x++){
+            selects[x].selectedIndex = currentIndex[x]
+        }
+        
+        var typeA = getColumnTypes(array, 0)
+        var typeB = getColumnTypes(array, 1)
+        var typeC = getColumnTypes(array, 2)
+        console.log(typeA)
+        
+        
     }
 
     //place the initial Values in selects
     putValuesInSelects(array);
-    
-    
+
     function putValuesInTable(elements){
-        
-        
+
         var table = document.getElementById('table-data');
-        
+
         var innerHtml = '';
-        
+
         elements.forEach(function(element){
             row = element.split(",")
            innerHtml += '<tr><td>' + row[0] +'</td><td>'+row[1]+'</td><td>'+row[2]+'</td></tr>' ;
         });
-        
+
         table.innerHTML = innerHtml
-        
+
     }
-    
+
     putValuesInTable(array);
-    
-    
-    
-    registerChange = function(){
+
+    registerChange = function(x){
         var input = {
             'a': document.getElementById('a-select').value,
             'b': document.getElementById('b-select').value,
             'c': document.getElementById('c-select').value,
         }
         
-        var filtered = filterData(array, input)
-        console.log(filtered)
-        putValuesInTable(filtered)
 
+        var filtered = filterData(array, input)
+        putValuesInTable(filtered);
+        
+        selectOrder.push(x)
+        console.log('select order is', selectOrder)
+        
+        //putValuesInSelects(filtered)
+        //updateSelects(array, input);
     }
-    
+
     function filterData(arr, input){
         var filtered = arr
-        
+
         for(var key in input){
             var keyOrder
             if(key == 'a'){
@@ -140,7 +178,7 @@ window.onload = function(){
             } else if (key == 'c'){
                 keyOrder = 2
             }
-            
+
 
             if(input[key] != 0){
                 filtered = filtered.filter(function(element){
@@ -151,21 +189,12 @@ window.onload = function(){
                 })
             }
         }
-        
-        /*
-        if(input.a !== 0){
-            filtered = filtered.filter(function(element){
-                var row = element.split(",");
-                if(row[0] == input.a){
-                    return element
-                }
-            })
-        }
-         */
+
+        console.log('filtered data is', filtered)
         return filtered;
-        
+
     }
-     
+
 }
 
 
